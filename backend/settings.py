@@ -58,7 +58,8 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8080',
+    'http://localhost:3000',
+    "http://127.0.0.1:3000"
 )
 ROOT_URLCONF = 'backend.urls'
 
@@ -87,9 +88,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'railways_db',
-        'HOST': '127.0.0.1',
-        'PORT': 27017,
+        'NAME': 'Test',
+        'CLIENT': {
+                'host': 'mongodb://Maral:RFFC61B07MAwh5qQ@ac-ziy7aii-shard-00-00.fqj2e7t.mongodb.net:27017/?ssl=true&replicaSet=atlas-12b78b-shard-0&authSource=admin&retryWrites=true&w=majority'
+            }  
     }
 }
 
@@ -113,9 +115,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ]
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'rest_framework.authentication.TokenAuthentication',
+    # ]
 }
 
 
