@@ -13,7 +13,7 @@ routes.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
 # USER
 routes.register(r'user', UserApi, basename='user')
 
-
+ 
 urlpatterns = [
     *routes.urls
 ]
