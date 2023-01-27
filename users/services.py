@@ -20,7 +20,7 @@ class UserDataClass:
     id: int = None
 
     @classmethod
-    def from_instance(cls, user: "User") -> "UserDataClass":
+    def from_instance(cls, user: "User") -> "User":
         return cls(
             first_name=user.first_name,
             last_name=user.last_name,
@@ -30,7 +30,7 @@ class UserDataClass:
         )
 
 
-def create_user(user_dc: "UserDataClass") -> "UserDataClass":
+def create_user(user_dc: "User") -> "User":
     instance = models.User(
         first_name=user_dc.first_name, last_name=user_dc.last_name, email=user_dc.email, phone_number=user_dc.phone_number,
     )

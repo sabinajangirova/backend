@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'users',
     'corsheaders',
     'repairworks',
+    'trains',
+    'trainstations',
 ]
 
 MIDDLEWARE = [
@@ -87,16 +89,47 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'djongo',
+#             'NAME': 'RailwayWarningSystem',
+#             'ENFORCE_SCHEMA': False,
+#             'CLIENT': {
+#                 'host': 'mongodb+srv://Maral:h%2A2Gy%2ATHNave2sE@railwaywarningsystem.dobsvnm.mongodb.net/?retryWrites=true&w=majority'
+#             }  
+#         }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'railway',
+#         'HOST': 'localhost',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Qqwerty1',
+#         'PORT': 5432,
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
+        'NAME': 'Railway',
         'HOST': 'localhost',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
+        'USER': 'postgres',
+        'PASSWORD': 'Qqwerty1',
         'PORT': 5432,
     }
 }
+
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': 'db.sqlite3',
+#    }
+# }
 
 
 # Password validation
