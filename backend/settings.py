@@ -104,10 +104,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'railway',
-#         'HOST': 'localhost',
-#         'USER': 'postgres',
-#         'PASSWORD': 'Qqwerty1',
+#         'NAME': 'ofawviec',
+#         'HOST': 'postgres://ofawviec:4-x3gDD1pV6VaKQR5zy-jrfhdc-GM_mU@manny.db.elephantsql.com/ofawviec',
+#         'USER': 'ofawviec',
+#         'PASSWORD': '4-x3gDD1pV6VaKQR5zy-jrfhdc-GM_mU',
 #         'PORT': 5432,
 #     }
 # }
