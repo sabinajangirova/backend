@@ -3,12 +3,12 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
-from repairworks.serializer import RepairWorkSerializer
+from trains.serializer import TrainSerializer
 
-from .models import RepairWork
+from .models import Train
 
-class RepairWorkViewSet(ModelViewSet):
-    queryset = RepairWork.objects.all()
-    serializer_class = RepairWorkSerializer
-    serializer = RepairWorkSerializer(queryset, many=True)
+class TrainViewSet(ModelViewSet):
+    queryset = Train.objects.all()
+    serializer_class = TrainSerializer
+    serializer = TrainSerializer(queryset, many=True)
     # permission_classes = [permissions.IsAuthenticated]

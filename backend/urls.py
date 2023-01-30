@@ -29,6 +29,10 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/users/', include('users.urls')),
     path('admin/', admin.site.urls),
+    path('api/users', include(('users.routers', 'users'), namespace='users-api')),
+    path('api/repairworks/', include(('repairworks.urls', 'repairworks'), namespace='repairworks-api')),
+    path('api/trains/', include(('trains.urls', 'trains'), namespace='trains-api')),
+    path('api/trainstations/', include(('trainstations.urls', 'trainstations'), namespace='trainstations-api')),
 ]
 
 # urlpatterns = [
