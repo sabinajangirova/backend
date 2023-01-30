@@ -11,4 +11,4 @@ class RepairWorkViewSet(ModelViewSet):
     queryset = RepairWork.objects.all()
     serializer_class = RepairWorkSerializer
     serializer = RepairWorkSerializer(queryset, many=True)
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
