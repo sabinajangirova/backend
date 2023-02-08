@@ -12,4 +12,5 @@ class TrainStationViewSet(ModelViewSet):
     serializer_class = TrainStationSerializer
     serializer = TrainStationSerializer(queryset, many=True)
     # permission_classes = [IsAuthenticated]
+    permission_classes = []
 

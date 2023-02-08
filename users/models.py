@@ -1,10 +1,10 @@
 from django.db import models
 from django.contrib.auth import models as auth_models
 from django.contrib.auth.models import PermissionsMixin
-# Create your models here.
+from trainstations.models import TrainStation
 
 class UserManager(auth_models.BaseUserManager):
-    def create_user(self, first_name:str, last_name:str, email:str,phone_number:str, password:str = None, is_staff=False, is_superuser=False) -> "User":
+    def create_user(self, first_name:str, last_name:str, email:str,phone_number:str, password:str = None, station:int = None, is_staff=False, is_superuser=False) -> "User":
         if not email:
             raise ValueError("User must have an email")
         if not first_name:
@@ -20,6 +20,7 @@ class UserManager(auth_models.BaseUserManager):
         user.is_active = True
         user.is_staff = is_staff
         user.is_superuser = is_superuser
+        user.station=station
         user.save()
         return user
 
@@ -45,6 +46,7 @@ class User(auth_models.AbstractUser, PermissionsMixin):
     password = models.CharField(max_length=255, blank=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    station = models.ForeignKey(TrainStation, on_delete=models.SET_NULL, null=True)
     username = None
 
     objects = UserManager()

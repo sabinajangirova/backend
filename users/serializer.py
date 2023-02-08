@@ -84,12 +84,14 @@ class UserSerializer(serializers.ModelSerializer):
         return first_name + " " + last_name
 
     def create(self, validated_data):
+        print(validated_data)
         user = User.objects.create_user(
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
             email=validated_data['email'],
             password=validated_data['password'],
-            phone_number=validated_data['phone_number']
+            phone_number=validated_data['phone_number'],
+            station=validated_data['station']
         )
         return user
 
@@ -103,5 +105,7 @@ class UserSerializer(serializers.ModelSerializer):
             "full_name",
             "user_permissions",
             "groups",
+            "password",
             "id",
+            "station",
         )

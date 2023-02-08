@@ -5,4 +5,4 @@ from rest_framework.serializers import ModelSerializer
 class TrainStationSerializer(ModelSerializer):
     class Meta:
         model = TrainStation
-        fields = ['id', 'name', 'longitude', 'latitude', 'administrator']
+        fields = ['id', 'name', 'longitude', 'latitude']

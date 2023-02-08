@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+from trainstations.models import TrainStation
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -15,7 +16,9 @@ class RepairWork(models.Model):
     
     status = models.CharField(max_length=25, choices=RepairWorkStatus.choices, null=False, blank=False, default=RepairWorkStatus.WAITING_FOR_CONFIRMATION)
     description = models.CharField(max_length=255, null=True, blank=True, default="")
-    commenter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    responsible = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    # stations_around = models.ManyToManyField(TrainStation)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
