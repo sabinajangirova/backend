@@ -121,23 +121,23 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Railway',
-        'HOST': 'localhost',
-        'USER': 'postgres',
-        'PASSWORD': 'Qqwerty1',
-        'PORT': 5432,
-    }
-}
-
 # DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': 'db.sqlite3',
-#    }
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Railway',
+#         'HOST': 'localhost',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Qqwerty1',
+#         'PORT': 5432,
+#     }
 # }
+
+DATABASES = {
+   'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': 'db.sqlite3',
+   }
+}
 
 
 # Password validation
