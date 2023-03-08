@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +27,14 @@ JWT_SECRET = "secretkeyforseniorproject"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    '10.101.62.163',
+    '10.3.8.17:8000',
+    '192.168.0.119',
+    '10.3.9.141',
+    '192.168.0.1'
+]
 
 
 # Application definition
@@ -42,6 +50,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'users',
     'corsheaders',
+    'repairworks',
+    'trains',
+    'trainstations',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +70,8 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
-    "http://127.0.0.1:3000"
+    'http://127.0.0.1:3000',
+    'exp://10.23.4.121:19000'
 )
 ROOT_URLCONF = 'backend.urls'
 
@@ -85,14 +97,46 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'djongo',
+#             'NAME': 'RailwayWarningSystem',
+#             'ENFORCE_SCHEMA': False,
+#             'CLIENT': {
+#                 'host': 'mongodb+srv://Maral:h%2A2Gy%2ATHNave2sE@railwaywarningsystem.dobsvnm.mongodb.net/?retryWrites=true&w=majority'
+#             }  
+#         }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'ofawviec',
+#         'HOST': 'postgres://ofawviec:4-x3gDD1pV6VaKQR5zy-jrfhdc-GM_mU@manny.db.elephantsql.com/ofawviec',
+#         'USER': 'ofawviec',
+#         'PASSWORD': '4-x3gDD1pV6VaKQR5zy-jrfhdc-GM_mU',
+#         'PORT': 5432,
+#     }
+# }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Railway',
+#         'HOST': 'localhost',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Qqwerty1',
+#         'PORT': 5432,
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'Test',
-        'CLIENT': {
-                'host': 'mongodb://Maral:RFFC61B07MAwh5qQ@ac-ziy7aii-shard-00-00.fqj2e7t.mongodb.net:27017/?ssl=true&replicaSet=atlas-12b78b-shard-0&authSource=admin&retryWrites=true&w=majority'
-            }  
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': 'db.sqlite3',
+   }
 }
 
 
@@ -100,27 +144,33 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'rest_framework.authentication.TokenAuthentication',
-    # ]
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1)
 }
 
 

@@ -6,11 +6,12 @@ from . import authentication
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.viewsets import ModelViewSet, ViewSet
+from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
-from .serializer import UserSerializer, LoginSerializer, RegisterSerializer
+from .serializer import UserSerializer
 from rest_framework import filters
 from .models import User
 # class RegisterApi(views.APIView):
@@ -44,25 +45,26 @@ from .models import User
 
 #         return resp
 
-class UserApi(ModelViewSet):
-    http_method_names = ['get']
-    serializer_class = UserSerializer
+class UserApi(APIView):
     permission_classes = (permissions.IsAuthenticated,)
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = ['updated']
-    ordering = ['-updated']
 
-    def get_queryset(self):
-        if self.request.user.is_superuser:
-            return User.objects.all()
+    def get(self, request):
+        user = request.user
+        user = UserSerializer(user)
 
-    def get_object(self):
-        lookup_field_value = self.kwargs[self.lookup_field]
+        return Response(user.data, status=status.HTTP_200_OK)
+    
+    # def get_queryset(self):
+    #     if self.request.user.is_superuser:
+    #         return User.objects.all()
 
-        obj = User.objects.get(pk=lookup_field_value)
-        self.check_object_permissions(self.request, obj)
+    # def get_object(self):
+    #     lookup_field_value = self.kwargs[self.lookup_field]
 
-        return obj
+    #     obj = User.objects.get(pk=lookup_field_value)
+    #     self.check_object_permissions(self.request, obj)
+
+    #     return obj
 
 
 class LogoutApi(views.APIView):
@@ -76,43 +78,36 @@ class LogoutApi(views.APIView):
 
         return resp
 
-class LoginViewSet(ModelViewSet, TokenObtainPairView):
-    serializer_class = LoginSerializer
+# class LoginViewSet(ModelViewSet, TokenObtainPairView):
+#     serializer_class = LoginSerializer
+#     permission_classes = (AllowAny,)
+#     http_method_names = ['post']
+
+#     def create(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         try:
+#             user = User.objects.get(email=request.data["email"], password=request.data["password"])
+#             print(user)
+#             # serializer.is_valid(raise_exception=True)
+#         except TokenError as e:
+#             print(serializer.error)
+#             # raise InvalidToken(e.args[0])
+
+#         return Response("ok", status=status.HTTP_200_OK)
+
+
+class RegistrationView(APIView):
     permission_classes = (AllowAny,)
     http_method_names = ['post']
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-
-        try:
-            serializer.is_valid(raise_exception=True)
-        except TokenError as e:
-            raise InvalidToken(e.args[0])
-
-        return Response(serializer.validated_data, status=status.HTTP_200_OK)
-
-
-class RegistrationViewSet(ModelViewSet, TokenObtainPairView):
-    serializer_class = RegisterSerializer
-    permission_classes = (AllowAny,)
-    http_method_names = ['post']
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        refresh = RefreshToken.for_user(user)
-        res = {
-            "refresh": str(refresh),
-            "access": str(refresh.access_token),
-        }
-
-        return Response({
-            "user": serializer.data,
-            "refresh": res["refresh"],
-            "token": res["access"]
-        }, status=status.HTTP_201_CREATED)
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        serializer = UserSerializer(data=data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user = serializer.create(serializer.validated_data)
+        user = UserSerializer(user)
+        return Response(user.data, status=status.HTTP_201_CREATED)
 
 
 class RefreshViewSet(ViewSet, TokenRefreshView):
