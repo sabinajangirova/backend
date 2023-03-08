@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import models as auth_models
-from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import PermissionsMixin, Group
 from trainstations.models import TrainStation
 
 class UserManager(auth_models.BaseUserManager):
@@ -39,6 +39,10 @@ class UserManager(auth_models.BaseUserManager):
 
 
 class User(auth_models.AbstractUser, PermissionsMixin):
+    class UserRole(models.TextChoices):
+        STATION_WORKER = 'Station worker'
+        TRAIN_CONDUCTOR = 'Train conductor'
+
     first_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(unique=True, max_length=255)
@@ -47,6 +51,7 @@ class User(auth_models.AbstractUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     station = models.ForeignKey(TrainStation, on_delete=models.SET_NULL, null=True)
+    role = models.CharField(max_length=25, choices=UserRole.choices, null=False, blank=False, default=UserRole.TRAIN_CONDUCTOR)
     username = None
 
     objects = UserManager()
@@ -56,3 +61,11 @@ class User(auth_models.AbstractUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+# class StationWorker(User):
+#     class Meta:
+#         permissions = [('repairworks.view_repairWork'), ('repairworks.add_repairWork'), ('repairworks.change_repairWork'), ('repairworks.delete_repairWork')]
+
+# class TrainConductor(User):
+#     class Meta:
+#         permissions = [('repairworks.view_repairWork')]

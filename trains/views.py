@@ -7,8 +7,8 @@ from .models import Train
 
 class TrainsListViewSet(ListCreateAPIView):
     serializer_class = TrainSerializer
-    # permission_classes = [IsAuthenticated]
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
+    # permission_classes = []
 
     def get_queryset(self):
         queryset = Train.objects.all()
@@ -22,8 +22,8 @@ class TrainViewSet(RetrieveUpdateDestroyAPIView):
     serializer_class = TrainSerializer
     serializer = TrainSerializer(queryset, many=True)
 
-    # permission_classes = [IsAuthenticated]
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
+    # permission_classes = []
     
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)

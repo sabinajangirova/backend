@@ -27,7 +27,14 @@ JWT_SECRET = "secretkeyforseniorproject"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    '10.101.62.163',
+    '10.3.8.17:8000',
+    '192.168.0.119',
+    '10.3.9.141',
+    '192.168.0.1'
+]
 
 
 # Application definition
@@ -162,7 +169,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIGETIME':timedelta(hours=48)
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1)
 }
 
 

@@ -91,7 +91,8 @@ class UserSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             password=validated_data['password'],
             phone_number=validated_data['phone_number'],
-            station=validated_data['station']
+            station=validated_data['station'],
+            role=validated_data['role']
         )
         return user
 
@@ -104,7 +105,7 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name",
             "full_name",
             "user_permissions",
-            "groups",
+            "role",
             "password",
             "id",
             "station",

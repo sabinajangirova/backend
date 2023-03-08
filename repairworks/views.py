@@ -1,14 +1,16 @@
 from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
+from users.permissions import isStationWorker
 from repairworks.serializer import RepairWorkSerializer
 
 from .models import RepairWork
 
 class RepairWorksListViewSet(ListCreateAPIView):
     serializer_class = RepairWorkSerializer
-    # permission_classes = [IsAuthenticated]
-    permission_classes = []
+    
+    permission_classes = [IsAuthenticated, isStationWorker]
+    # permission_classes = []
 
     def get_queryset(self):
         queryset = RepairWork.objects.all()
@@ -26,8 +28,8 @@ class RepairWorkViewSet(RetrieveUpdateDestroyAPIView):
     serializer_class = RepairWorkSerializer
     serializer = RepairWorkSerializer(queryset, many=True)
 
-    # permission_classes = [IsAuthenticated]
-    permission_classes = []
+    permission_classes = [IsAuthenticated, isStationWorker]
+    # permission_classes = []
     
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
