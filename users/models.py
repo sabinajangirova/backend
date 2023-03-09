@@ -4,7 +4,7 @@ from django.contrib.auth.models import PermissionsMixin, Group
 from trainstations.models import TrainStation
 
 class UserManager(auth_models.BaseUserManager):
-    def create_user(self, first_name:str, last_name:str, email:str,phone_number:str, password:str = None, station:int = None, is_staff=False, is_superuser=False) -> "User":
+    def create_user(self, first_name:str, last_name:str, email:str,phone_number:str, password:str = None, role:str = None, station:int = None, is_staff=False, is_superuser=False) -> "User":
         if not email:
             raise ValueError("User must have an email")
         if not first_name:
@@ -20,6 +20,7 @@ class UserManager(auth_models.BaseUserManager):
         user.is_active = True
         user.is_staff = is_staff
         user.is_superuser = is_superuser
+        user.role=role
         user.station=station
         user.save()
         return user
