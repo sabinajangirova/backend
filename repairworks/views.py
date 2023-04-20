@@ -41,7 +41,7 @@ class RepairWorkViewSet(RetrieveUpdateDestroyAPIView):
 
 class RepairWorkCreateListViewSet(CreateAPIView):
     serializer_class = RepairWorkSerializer
-    permission_classes = [IsAuthenticated, isStationWorker]
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         repairworks = request.data["repairworks"]
@@ -56,7 +56,7 @@ class RepairWorkCreateListViewSet(CreateAPIView):
         return Response(new_repairworks, status=status.HTTP_201_CREATED)
     
 class RepairWorkUpdateListViewSet(APIView):
-    permission_classes = [IsAuthenticated, isStationWorker]
+    permission_classes = [IsAuthenticated]
 
     def patch(self, request):
         serializer = RepairWorkSerializer(data=request.data["repairworks"], many=True, partial=True)
