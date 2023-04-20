@@ -61,11 +61,15 @@ class RepairWorkUpdateListViewSet(APIView):
     def patch(self, request):
         serializer = RepairWorkSerializer(data=request.data["repairworks"], many=True, partial=True)
         if serializer.is_valid():
-            ids = [item['id'] for item in serializer.validated_data]
+            new_objects = [item for item in serializer.validated_data]
+            ids = [item['id'] for item in new_objects]
             objects = RepairWork.objects.filter(id__in=ids)
             RepairWork.objects.exclude(id__in=ids).delete()
             for obj in objects:
-                data = next(item for item in serializer.validated_data if item['id'] == obj.id)
+                for r in new_objects:
+                    print(new_objects)
+                    if r['id'] == obj.id:
+                        data = r
                 serializer = RepairWorkSerializer(obj, data=data, partial=True)
                 if serializer.is_valid():
                     serializer.save()
