@@ -67,7 +67,6 @@ class RepairWorkUpdateListViewSet(APIView):
             RepairWork.objects.exclude(id__in=ids).delete()
             for obj in objects:
                 for r in new_objects:
-                    print(new_objects)
                     if r['id'] == obj.id:
                         data = r
                 serializer = RepairWorkSerializer(obj, data=data, partial=True)
