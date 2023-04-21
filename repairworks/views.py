@@ -7,6 +7,7 @@ from repairworks.serializer import RepairWorkSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from .models import RepairWork
+import json
 
 class RepairWorksListViewSet(ListCreateAPIView):
     serializer_class = RepairWorkSerializer
@@ -52,7 +53,7 @@ class RepairWorkCreateListViewSet(CreateAPIView):
             if not serializer.is_valid():
                 not_created_repairworks.append(r)
             repairwork = serializer.create(serializer.validated_data)
-            new_repairworks.append(RepairWorkSerializer(repairwork))
+            new_repairworks.append(json.dumps(RepairWorkSerializer(repairwork)))
         return Response(new_repairworks, status=status.HTTP_201_CREATED)
     
 class RepairWorkUpdateListViewSet(APIView):
