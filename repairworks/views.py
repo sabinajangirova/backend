@@ -60,20 +60,15 @@ class RepairWorkUpdateListViewSet(APIView):
     permission_classes = [IsAuthenticated]
 
     def patch(self, request):
-        serializer = RepairWorkSerializer(data=request.data["repairworks"], many=True, partial=True)
-        if serializer.is_valid():
-            new_objects = [item for item in serializer.validated_data]
-            ids = [item['id'] for item in new_objects]
-            objects = RepairWork.objects.filter(id__in=ids)
-            RepairWork.objects.exclude(id__in=ids).delete()
-            for obj in objects:
-                for r in new_objects:
-                    if r['id'] == obj.id:
-                        data = r
-                serializer = RepairWorkSerializer(obj, data=data, partial=True)
+        for item in request.data["repairworks"]:
+            if 'id' in item:
+                repairwork = RepairWork.objects.get(pk=item['id'])
+                serializer = RepairWorkSerializer(repairwork, data=item, partial=True)
                 if serializer.is_valid():
                     serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                serializer = RepairWorkSerializer(data=item)
+                repairwork = serializer.create(serializer.validated_data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     

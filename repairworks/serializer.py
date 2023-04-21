@@ -4,7 +4,6 @@ from rest_framework import serializers
 
 
 class RepairWorkSerializer(ModelSerializer):
-    id = serializers.IntegerField(required=False)
     class Meta:
         model = RepairWork
         fields = ['id', 'longitude', 'latitude', 'radius', 'status', 'description', 'responsible', 'created_at', 'updated_at', 'expected_start_time', 'expected_finish_time']
