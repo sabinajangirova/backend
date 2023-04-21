@@ -68,7 +68,8 @@ class RepairWorkUpdateListViewSet(APIView):
                     serializer.save()
             else:
                 serializer = RepairWorkSerializer(data=item)
-                repairwork = serializer.create(serializer.validated_data)
+                if serializer.is_valid():
+                    repairwork = serializer.create(serializer.validated_data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     
